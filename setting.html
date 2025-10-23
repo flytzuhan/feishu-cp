@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>设置 - 飞书文档复制助手</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #667eea;
+      text-align: center;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    .form-group {
+      margin-bottom: 24px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #333;
+      font-size: 14px;
+    }
+    input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    .help-text {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #666;
+      line-height: 1.5;
+    }
+    .help-text code {
+      background: #f7f9fc;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: monospace;
+      font-size: 11px;
+    }
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 32px;
+    }
+    button {
+      flex: 1;
+      padding: 14px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    #saveBtn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    #saveBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+    #cancelBtn {
+      background: #f7f9fc;
+      color: #667eea;
+      border: 2px solid #667eea;
+    }
+    #cancelBtn:hover {
+      background: #667eea;
+      color: white;
+    }
+    .status {
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      text-align: center;
+      display: none;
+    }
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .instructions {
+      background: #f7f9fc;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 32px;
+      border-left: 4px solid #667eea;
+    }
+    .instructions h3 {
+      color: #667eea;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+    .instructions ol {
+      margin-left: 20px;
+      color: #555;
+      line-height: 1.8;
+      font-size: 13px;
+    }
+    .instructions li {
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>⚙️ 设置</h1>
+    <p class="subtitle">配置你的目标知识库信息</p>
+    
+    <form id="settingsForm">
+      <div class="form-group">
+        <label for="wikiId">目标知识库 ID *</label>
+        <input type="text" id="wikiId" placeholder="例如: wikXXXXXXXXXXXX" required>
+        <p class="help-text">
+          💡 在目标知识库的URL中找到，格式如：<code>https://feishu.cn/wiki/wikXXXXXXXXXXXX</code>
+        </p>
+      </div>
+      
+      <div class="form-group">
+        <label for="folderId">目标文件夹 ID（可选）</label>
+        <input type="text" id="folderId" placeholder="例如: nodXXXXXXXXXXXX">
+        <p class="help-text">
+          💡 如果要复制到特定文件夹，填写文件夹ID。留空则复制到知识库根目录
+        </p>
+      </div>
+      
+      <div class="button-group">
+        <button type="submit" id="saveBtn">💾 保存设置</button>
+        <button type="button" id="cancelBtn">❌ 取消</button>
+      </div>
+    </form>
+    
+    <div class="status" id="status"></div>
+    
+    <div class="instructions">
+      <h3>📖 如何获取知识库ID？</h3>
+      <ol>
+        <li>打开你要作为目标的飞书知识库</li>
+        <li>复制浏览器地址栏中的URL</li>
+        <li>找到URL中 <code>/wiki/</code> 后面的部分，那就是知识库ID</li>
+        <li>例如：<code>https://feishu.cn/wiki/wikXXXXXXXXXXXX</code> 中的 <code>wikXXXXXXXXXXXX</code></li>
+      </ol>
+    </div>
+  </div>
+  
+  <script src="settings.js"></script>
+</body>
+</html>
