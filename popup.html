@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>飞书文档复制助手</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      width: 380px;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+    }
+    .container {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    h1 {
+      font-size: 20px;
+      margin-bottom: 16px;
+      color: #667eea;
+      text-align: center;
+    }
+    .doc-info {
+      background: #f7f9fc;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      font-size: 13px;
+    }
+    .doc-info strong {
+      color: #667eea;
+    }
+    .doc-title {
+      margin-top: 8px;
+      padding: 8px;
+      background: white;
+      border-radius: 4px;
+      word-break: break-all;
+      font-size: 12px;
+    }
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+    #copyBtn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    #copyBtn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+    #copyBtn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    #settingsBtn {
+      background: #f7f9fc;
+      color: #667eea;
+      border: 2px solid #667eea;
+    }
+    #settingsBtn:hover {
+      background: #667eea;
+      color: white;
+    }
+    .status {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      text-align: center;
+      display: none;
+    }
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .status.info {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+    .loading {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .tip {
+      margin-top: 12px;
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📋 飞书文档复制助手</h1>
+    
+    <div class="doc-info">
+      <strong>当前文档：</strong>
+      <div class="doc-title" id="docTitle">加载中...</div>
+    </div>
+    
+    <div class="button-group">
+      <button id="copyBtn">
+        🚀 一键复制到我的知识库
+      </button>
+      <button id="settingsBtn">
+        ⚙️ 设置目标知识库
+      </button>
+    </div>
+    
+    <div class="status" id="status"></div>
+    
+    <div class="tip">
+      💡 提示：首次使用请先设置目标知识库
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
