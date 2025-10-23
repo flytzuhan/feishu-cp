@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "飞书文档快速复制",
+  "version": "1.0.0",
+  "description": "一键将飞书文档复制到自己的知识库",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://*.feishu.cn/*",
+    "https://*.larksuite.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.feishu.cn/docx/*",
+        "https://*.feishu.cn/wiki/*",
+        "https://*.feishu.cn/docs/*",
+        "https://*.larksuite.com/docx/*",
+        "https://*.larksuite.com/wiki/*",
+        "https://*.larksuite.com/docs/*"
+      ],
+      "js": ["content.js"],
+      "css": ["content.css"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
