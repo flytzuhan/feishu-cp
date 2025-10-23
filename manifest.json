@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "飞书文档快速复制",
+  "name": "飞书文档快速复制助手",
   "version": "1.0.0",
-  "description": "一键将飞书文档复制到自己的知识库",
+  "description": "一键复制飞书文档到你的知识库",
   "permissions": [
     "activeTab",
     "scripting",
@@ -31,7 +31,7 @@
         "https://*.larksuite.com/docs/*"
       ],
       "js": ["content.js"],
-      "css": ["content.css"]
+      "run_at": "document_idle"
     }
   ],
   "background": {
