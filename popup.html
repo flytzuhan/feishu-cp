@@ -3,156 +3,191 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>飞书文档复制助手</title>
+  <title>飞书文档复制</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+    
     body {
-      width: 380px;
+      width: 360px;
       padding: 20px;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: #333;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f7f8fa;
     }
+    
     .container {
       background: white;
-      border-radius: 12px;
+      border-radius: 8px;
       padding: 20px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    h1 {
-      font-size: 20px;
-      margin-bottom: 16px;
-      color: #667eea;
-      text-align: center;
-    }
-    .doc-info {
-      background: #f7f9fc;
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 16px;
-      font-size: 13px;
-    }
-    .doc-info strong {
-      color: #667eea;
-    }
-    .doc-title {
-      margin-top: 8px;
-      padding: 8px;
-      background: white;
-      border-radius: 4px;
-      word-break: break-all;
-      font-size: 12px;
-    }
-    .button-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    button {
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      font-size: 14px;
+    
+    h2 {
+      font-size: 18px;
+      color: #1f2329;
+      margin-bottom: 20px;
       font-weight: 600;
+    }
+    
+    .config-section {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e5e6eb;
+    }
+    
+    .form-group {
+      margin-bottom: 16px;
+    }
+    
+    label {
+      display: block;
+      font-size: 14px;
+      color: #646a73;
+      margin-bottom: 8px;
+    }
+    
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #dee0e3;
+      border-radius: 4px;
+      font-size: 14px;
+      transition: border-color 0.2s;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: #3370ff;
+    }
+    
+    input::placeholder {
+      color: #bbbfc4;
+    }
+    
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.3s ease;
-      text-align: center;
+      transition: all 0.2s;
     }
-    #copyBtn {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+    .btn-primary {
+      background: #3370ff;
       color: white;
+      margin-bottom: 10px;
     }
-    #copyBtn:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    
+    .btn-primary:hover {
+      background: #2557d0;
     }
-    #copyBtn:disabled {
-      background: #ccc;
+    
+    .btn-primary:disabled {
+      background: #bbbfc4;
       cursor: not-allowed;
     }
-    #settingsBtn {
-      background: #f7f9fc;
-      color: #667eea;
-      border: 2px solid #667eea;
+    
+    .btn-secondary {
+      background: #f2f3f5;
+      color: #646a73;
     }
-    #settingsBtn:hover {
-      background: #667eea;
-      color: white;
+    
+    .btn-secondary:hover {
+      background: #e5e6eb;
     }
-    .status {
-      margin-top: 12px;
-      padding: 10px;
-      border-radius: 6px;
+    
+    .message {
+      padding: 12px;
+      border-radius: 4px;
       font-size: 13px;
-      text-align: center;
+      margin-top: 16px;
       display: none;
     }
-    .status.success {
-      background: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
+    
+    .message.show {
+      display: block;
     }
-    .status.error {
-      background: #f8d7da;
-      color: #721c24;
-      border: 1px solid #f5c6cb;
+    
+    .message.success {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #c8e6c9;
     }
-    .status.info {
-      background: #d1ecf1;
-      color: #0c5460;
-      border: 1px solid #bee5eb;
+    
+    .message.error {
+      background: #ffebee;
+      color: #c62828;
+      border: 1px solid #ffcdd2;
     }
+    
+    .message.info {
+      background: #e3f2fd;
+      color: #1565c0;
+      border: 1px solid #bbdefb;
+    }
+    
     .loading {
       display: inline-block;
       width: 14px;
       height: 14px;
-      border: 2px solid #f3f3f3;
-      border-top: 2px solid #667eea;
+      border: 2px solid #ffffff;
+      border-top-color: transparent;
       border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-right: 8px;
+      animation: spin 0.6s linear infinite;
+      margin-right: 6px;
       vertical-align: middle;
     }
+    
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      to { transform: rotate(360deg); }
     }
+    
     .tip {
-      margin-top: 12px;
       font-size: 12px;
-      color: #666;
-      text-align: center;
-      line-height: 1.5;
+      color: #8f959e;
+      margin-top: 6px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>📋 飞书文档复制助手</h1>
+    <h2>🚀 飞书文档一键复制</h2>
     
-    <div class="doc-info">
-      <strong>当前文档：</strong>
-      <div class="doc-title" id="docTitle">加载中...</div>
+    <div class="config-section">
+      <div class="form-group">
+        <label>Access Token</label>
+        <input 
+          type="text" 
+          id="accessToken" 
+          placeholder="请输入飞书 Access Token"
+        >
+        <p class="tip">需要有复制文档的权限</p>
+      </div>
+      
+      <div class="form-group">
+        <label>目标文件夹 Token</label>
+        <input 
+          type="text" 
+          id="folderToken" 
+          placeholder="请输入目标文件夹的 folder_token"
+        >
+        <p class="tip">文档将复制到此文件夹下</p>
+      </div>
+      
+      <button class="btn-secondary" id="saveConfig">💾 保存配置</button>
     </div>
     
-    <div class="button-group">
-      <button id="copyBtn">
-        🚀 一键复制到我的知识库
-      </button>
-      <button id="settingsBtn">
-        ⚙️ 设置目标知识库
-      </button>
-    </div>
+    <button class="btn-primary" id="copyBtn">
+      <span id="btnText">📋 一键复制当前文档</span>
+    </button>
     
-    <div class="status" id="status"></div>
-    
-    <div class="tip">
-      💡 提示：首次使用请先设置目标知识库
-    </div>
+    <div id="message" class="message"></div>
   </div>
   
   <script src="popup.js"></script>
